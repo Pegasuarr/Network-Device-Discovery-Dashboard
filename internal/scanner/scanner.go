@@ -2,8 +2,10 @@ package scanner
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"

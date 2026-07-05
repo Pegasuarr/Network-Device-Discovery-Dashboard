@@ -47,10 +47,16 @@ func SetupRouter(h *Handlers, wsHub *websocket.Hub) *gin.Engine {
 				dash.GET("/latency", h.GetDashboardLatency)
 			}
 
+			protected.GET("/statistics", h.GetStatistics)
+			protected.GET("/notifications", h.ListNotifications)
+			protected.GET("/device-types", h.ListDeviceTypes)
+			protected.GET("/vendors", h.ListVendors)
+
 			// Devices Endpoints
 			devices := protected.Group("/devices")
 			{
 				devices.GET("", h.ListDevices)
+				devices.GET("/:id", h.GetDeviceDetail)
 				devices.POST("", middleware.RoleRequired("Operator", "Admin"), h.CreateDevice)
 				devices.PUT("/:id", middleware.RoleRequired("Operator", "Admin"), h.UpdateDevice)
 				devices.DELETE("/:id", middleware.RoleRequired("Admin"), h.DeleteDevice)
@@ -59,12 +65,18 @@ func SetupRouter(h *Handlers, wsHub *websocket.Hub) *gin.Engine {
 				// CSV Bulk actions
 				devices.POST("/import", middleware.RoleRequired("Operator", "Admin"), h.ImportDevices)
 				devices.GET("/export", h.ExportDevices)
+				devices.GET("/export/pdf", h.ExportDevicesPDF)
 			}
 
 			// Discovery Sweepers
 			discovery := protected.Group("/discovery")
 			{
 				discovery.POST("/scan", middleware.RoleRequired("Operator", "Admin"), h.TriggerDiscovery)
+				discovery.POST("/scan/cancel", middleware.RoleRequired("Operator", "Admin"), h.CancelScan)
+				discovery.GET("/history", h.GetScanHistory)
+				discovery.GET("/schedules", h.ListScanSchedules)
+				discovery.POST("/schedules", middleware.RoleRequired("Operator", "Admin"), h.CreateScanSchedule)
+				discovery.DELETE("/schedules/:id", middleware.RoleRequired("Operator", "Admin"), h.DeleteScanSchedule)
 			}
 
 			// Alerts Endpoints

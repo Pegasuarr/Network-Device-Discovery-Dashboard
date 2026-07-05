@@ -3,6 +3,7 @@ package fingerprint
 import (
 	"bufio"
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net"
 	"net/http"
@@ -193,7 +194,7 @@ func grabHTTPBanner(ctx context.Context, ip string, isHTTPS bool) string {
 
 	url := fmt.Sprintf("%s://%s:%d", schema, ip, port)
 	tr := &http.Transport{
-		TLSClientConfig: &net.Dialer{Timeout: 300 * time.Millisecond}.LocalAddr, // skip cert verification proxy
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	client := &http.Client{
 		Timeout:   400 * time.Millisecond,

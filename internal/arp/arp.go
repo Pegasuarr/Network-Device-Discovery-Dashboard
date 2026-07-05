@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
-	"time"
 )
 
 // Lookup retrieves the MAC address associated with the given IP from the system's ARP cache.

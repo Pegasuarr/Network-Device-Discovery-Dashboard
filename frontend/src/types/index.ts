@@ -25,6 +25,16 @@ export interface DeviceGroup {
   description: string;
 }
 
+export interface SNMPInterface {
+  index: number;
+  name: string;
+  type: string;
+  speed_mbps: number;
+  status: string;
+  in_traffic_mbps: number;
+  out_traffic_mbps: number;
+}
+
 export interface Device {
   id: string;
   organization_id: string;
@@ -32,7 +42,8 @@ export interface Device {
   hostname: string;
   ip_address: string;
   mac_address: string;
-  device_type: "server" | "router" | "switch" | "printer" | "pc" | string;
+  mac_vendor: string;
+  device_type: "server" | "router" | "switch" | "printer" | "pc" | "phone" | "iot" | string;
   os: string;
   vendor: string;
   location: string;
@@ -48,6 +59,23 @@ export interface Device {
   created_at: string;
   updated_at: string;
   group?: DeviceGroup;
+
+  // Scanner & History fields
+  first_seen: string;
+  last_seen: string;
+  total_online_time: number;
+  number_of_scans: number;
+  availability_pct: number;
+  open_ports: string; // JSON string of ports array
+
+  // SNMP Telemetry
+  snmp_enabled: boolean;
+  snmp_sys_name: string;
+  snmp_sys_descr: string;
+  snmp_sys_uptime: number;
+  snmp_cpu_usage: number;
+  snmp_ram_usage: number;
+  snmp_interfaces: string; // JSON string of interface array
 }
 
 export interface AlertRule {
@@ -112,4 +140,40 @@ export interface DashboardStats {
   avg_ram: number;
   avg_disk: number;
   device_type_counts: Record<string, number>;
+
+  // Discovery fields
+  current_network: string;
+  scan_duration: number;
+  last_scan_time: string;
+}
+
+export interface DeviceTimeline {
+  id: string;
+  device_id: string;
+  event_type: "online" | "offline" | "join" | "ip_change" | "hostname_change";
+  message: string;
+  checked_at: string;
+}
+
+export interface ScanHistory {
+  id: string;
+  target: string;
+  scan_profile: string;
+  started_at: string;
+  ended_at: string;
+  status: "running" | "completed" | "cancelled" | "failed";
+  devices_found: number;
+  duration_ms: number;
+  scan_type: "manual" | "scheduled";
+}
+
+export interface ScanSchedule {
+  id: string;
+  name: string;
+  target: string;
+  cron_expression: string;
+  scan_profile: string;
+  enabled: boolean;
+  created_at: string;
+  updated_at: string;
 }
