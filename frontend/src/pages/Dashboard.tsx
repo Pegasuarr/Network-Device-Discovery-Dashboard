@@ -11,7 +11,6 @@ import {
   Globe,
   Radio,
   Bell,
-  Cpu,
   Database,
 } from "lucide-react";
 import {
@@ -64,7 +63,7 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     if (!lastMessage) return;
 
-    const { type, payload } = lastMessage;
+    const { type } = lastMessage;
 
     if (type === "device_status" || type === "ping_result") {
       // Re-trigger statistical loads to update graphs and counters
@@ -256,7 +255,7 @@ export const Dashboard: React.FC = () => {
                     paddingAngle={4}
                     dataKey="value"
                   >
-                    {deviceTypeData.map((entry, index) => (
+                    {deviceTypeData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>

@@ -7,7 +7,10 @@ import { Sidebar } from "./components/Sidebar";
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
 import { Devices } from "./pages/Devices";
-import { Monitoring } from "./pages/Monitoring";
+import { Scanner } from "./pages/Scanner";
+import { Topology } from "./pages/Topology";
+import { History } from "./pages/History";
+import { Schedules } from "./pages/Schedules";
 import { AlertRules } from "./pages/AlertRules";
 import { Users } from "./pages/Users";
 import { Settings } from "./pages/Settings";
@@ -72,10 +75,37 @@ const AppRoutes: React.FC = () => {
       />
 
       <Route
-        path="/monitoring"
+        path="/scan"
         element={
           <DashboardLayout>
-            <Monitoring />
+            <Scanner />
+          </DashboardLayout>
+        }
+      />
+
+      <Route
+        path="/topology"
+        element={
+          <DashboardLayout>
+            <Topology />
+          </DashboardLayout>
+        }
+      />
+
+      <Route
+        path="/history"
+        element={
+          <DashboardLayout>
+            <History />
+          </DashboardLayout>
+        }
+      />
+
+      <Route
+        path="/schedules"
+        element={
+          <DashboardLayout>
+            <Schedules />
           </DashboardLayout>
         }
       />

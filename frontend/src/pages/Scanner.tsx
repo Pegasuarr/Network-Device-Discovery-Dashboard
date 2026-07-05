@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import { useSocket } from "../context/SocketContext";
-import type { Device } from "../types";
 import {
   Play,
   Square,
   Activity,
   Server,
   Network,
-  Cpu,
-  CheckCircle,
-  Clock,
   Terminal,
 } from "lucide-react";
 

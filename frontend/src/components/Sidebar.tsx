@@ -6,6 +6,9 @@ import {
   HardDrive,
   Activity,
   AlertTriangle,
+  Network,
+  Clock,
+  Calendar,
   Users,
   Settings,
   ShieldCheck,
@@ -16,8 +19,11 @@ export const Sidebar: React.FC = () => {
 
   const links = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/scan", label: "Scan Network", icon: Activity },
     { to: "/devices", label: "Devices", icon: HardDrive },
-    { to: "/monitoring", label: "Discovery Scanner", icon: Activity },
+    { to: "/topology", label: "Topology Map", icon: Network },
+    { to: "/history", label: "Scan History", icon: Clock },
+    { to: "/schedules", label: "Scan Schedules", icon: Calendar },
     { to: "/alerts", label: "Alerts & Rules", icon: AlertTriangle },
   ];
 
