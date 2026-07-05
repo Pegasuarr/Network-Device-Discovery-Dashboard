@@ -1,0 +1,30 @@
+# Build stage
+FROM golang:1.24-alpine AS builder
+
+WORKDIR /app
+
+# Copy dependencies first for caching
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Build statically linked binary
+RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/server/main.go
+
+# Runtime stage
+FROM alpine:3.19
+
+WORKDIR /app
+
+# Install iputils to support unprivileged ping command
+RUN apk add --no-cache iputils ca-certificates
+
+# Copy compiled binary
+COPY --from=builder /app/server .
+
+# Expose HTTP port
+EXPOSE 8080
+
+CMD ["./server"]

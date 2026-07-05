@@ -1,0 +1,20 @@
+# Security & Environment Variables
+.env
+.env.local
+
+# Backend Compiled Binaries
+server.exe
+server
+main
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Local IDE & OS configurations
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
