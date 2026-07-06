@@ -53,6 +53,9 @@ func InitDB(cfg *configs.Config) (*gorm.DB, error) {
 		&model.AuditLog{},
 		&model.LoginLog{},
 		&model.Setting{},
+		&model.DeviceTimeline{},
+		&model.ScanHistory{},
+		&model.ScanSchedule{},
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to auto-migrate: %v", err)
