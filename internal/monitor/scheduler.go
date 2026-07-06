@@ -23,13 +23,15 @@ type Scheduler struct {
 	hub          *websocket.Hub
 	lastChecked  map[uuid.UUID]time.Time
 	mu           sync.Mutex
+	isMonPaused  *bool
 }
 
-func NewScheduler(alertService *service.AlertService, hub *websocket.Hub) *Scheduler {
+func NewScheduler(alertService *service.AlertService, hub *websocket.Hub, isMonPaused *bool) *Scheduler {
 	return &Scheduler{
 		alertService: alertService,
 		hub:          hub,
 		lastChecked:  make(map[uuid.UUID]time.Time),
+		isMonPaused:  isMonPaused,
 	}
 }
 
@@ -52,6 +54,10 @@ func (s *Scheduler) Start(ctx context.Context) {
 }
 
 func (s *Scheduler) pollAndExecute(ctx context.Context) {
+	if s.isMonPaused != nil && *s.isMonPaused {
+		return
+	}
+
 	var devices []model.Device
 	err := repository.DB.Where("enabled = ?", true).Find(&devices).Error
 	if err != nil {
